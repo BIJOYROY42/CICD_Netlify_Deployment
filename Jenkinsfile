@@ -43,14 +43,11 @@ pipeline {
                 }
             }
             steps {
-                // Install Netlify CLI
-                sh 'npm install -g netlify-cli'
-                
-                // Use the credentials stored in Jenkins
+                // Use npx to run Netlify CLI without global installation
                 withCredentials([string(credentialsId: 'token for ci/cd', variable: 'NETLIFY_AUTH_TOKEN')]) {
                     sh '''
                         echo "Deploying to Netlify..."
-                        netlify deploy --site astonishing-medovik-a2a2a3 --auth $NETLIFY_AUTH_TOKEN --prod --dir build
+                        npx netlify-cli deploy --site astonishing-medovik-a2a2a3 --auth $NETLIFY_AUTH_TOKEN --prod --dir build --message "Deployed from Jenkins pipeline"
                     '''
                 }
             }
@@ -66,28 +63,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
